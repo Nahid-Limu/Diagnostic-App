@@ -7,6 +7,7 @@
     @php
         echo $data;
     @endphp
+    <button type="button" onclick="window.print();" class="btn btn-danger" id="dis">Print</button>
 @endsection
 
 @section('script')
