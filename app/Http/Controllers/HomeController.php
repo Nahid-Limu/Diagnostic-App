@@ -85,15 +85,16 @@ class HomeController extends Controller
         $data = $request->data;
         $no = $request->i - 1;
         $tests = Test::Where('test_name', 'LIKE',"%{$data}%")->get();
-        $output = '<tr>';
+        $output = '';
 
          foreach ($tests as $test) {
-             $no;
-            $output .= '<td>'.$no.'</td>
+            $no;
+            $output .= '<tr id=test'.$test->id.'>
+            <td >'.$no.'</td>
             <td>'.$test->test_name.'</td>
             <td>'.$test->test_code.'</td>
             <td class ="price">'.$test->test_price.'</td>
-            <td><i class="fa fa-remove" style="font-size:24px; color:red;"></i></td>';
+            <td onclick="removeRow(\'test\'+'.$test->id.')"><i class="fa fa-remove" style="font-size:24px; color:red;"></i></td>';
           $no++;
         }
         $output .='</tr>';

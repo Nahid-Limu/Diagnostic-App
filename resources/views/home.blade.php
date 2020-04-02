@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Home')
 @section('css')
     <style>
             .searchbar{
@@ -34,6 +35,7 @@
             .searchbar:hover > .search_icon{
             background: white;
             color: #e74c3c;
+            text-decoration: none;
             }
         
             .search_icon{
@@ -109,7 +111,7 @@
                     <div class="d-flex justify-content-center h-100">
                         <div class="searchbar">
                         <input class="search_input" type="text" name="search" id="search" placeholder="Search Test Here....">
-                        <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                        <a href="#" class="search_icon"><i class="fa fa-search-plus"></i></a>
                         </div>
                     </div>
                 </form>
@@ -165,8 +167,11 @@
     
     
    
-
-@include('includes.footer')
+    {{-- <footer class="row">
+        @include('includes.footer')
+    </footer> --}}
+    @include('includes.footer')
+    
 </div>
 {{-- Rockstar --}}
 @endsection
@@ -209,8 +214,7 @@
                     var i = $('tr').length;
                    
                         $.post("{{ route('getTable') }}", {data:data,_token:_token,i:i}, function (ret) {
-                        
-                        
+                        // console.log(ret);                        
                             $("#testTable").append(ret);
                             
                             $('.price').each(function() {
@@ -251,7 +255,21 @@
                     }
                 });    
                 $('#result').text(sum);
-            };
+        };
+
+        function removeRow(rowId) {
+            alert(rowId+' delete me');
+            $('#'+rowId).remove();
+
+            $('.price').each(function() {
+                $(calculateSum);
+            });
+
+            var t = $('#tableData').prop('outerHTML');
+            // alert(t);
+            //$("#d").html(t);
+            $("#t_data").val(t);
+        }
 
     </script>
     <script>
@@ -260,6 +278,11 @@
                 alert('okk');
                 $("#tableData").find("tr:gt(0)").remove();
               });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+          $('[data-toggle="tooltip"]').tooltip();   
         });
     </script>
 @endsection

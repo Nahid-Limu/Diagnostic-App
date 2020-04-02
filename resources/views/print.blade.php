@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Print')
 @section('css')
     
 @endsection

@@ -17,13 +17,24 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::post('/print', 'HomeController@print')->name('print');
-Route::get('/insert', 'HomeController@insert')->name('insert');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::post('/print', 'HomeController@print')->name('print');
+    Route::get('/insert', 'HomeController@insert')->name('insert');
 
-Route::post('/insertPost', 'HomeController@insertPost')->name('insertPost');
+    Route::post('/insertPost', 'HomeController@insertPost')->name('insertPost');
 
-Route::post('/autoSearch', 'HomeController@autoSearch')->name('autoSearch');
-Route::post('/getTable', 'HomeController@getTable')->name('getTable');
+    Route::post('/autoSearch', 'HomeController@autoSearch')->name('autoSearch');
+    Route::post('/getTable', 'HomeController@getTable')->name('getTable');
+});
+
+// Route::get('/home', 'HomeController@index')->name('home');
+// Route::post('/print', 'HomeController@print')->name('print');
+// Route::get('/insert', 'HomeController@insert')->name('insert');
+
+// Route::post('/insertPost', 'HomeController@insertPost')->name('insertPost');
+
+// Route::post('/autoSearch', 'HomeController@autoSearch')->name('autoSearch');
+// Route::post('/getTable', 'HomeController@getTable')->name('getTable');
 
 
