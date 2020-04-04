@@ -135,7 +135,7 @@
                 <th>Test Name</th>
                 <th>Test Code</th>
                 <th>Test Price</th>
-                <th>Action</th>
+                <th class="testaction">Action</th>
                 
             </tr>
             </thead>
@@ -156,9 +156,10 @@
         <div style=" display: flex; justify-content: center;">
             <form action="{{ route('print') }}" method="POST">
                 @csrf
-                <button disabled="disabled" class="btn btn-primary" type="submit" id="con"><i class="fas fa-sign-out-alt"></i> Confirm</button>
+                <button disabled="disabled" class="btn btn-primary" type="submit" id="con" onclick="gotoprint()"><i class="fas fa-sign-out-alt"></i> Confirm</button>
             
                 <input  type="hidden" value="" id="t_data" name="t_data">
+                <input  type="hidden" value="" id="testIds" name="testIds">
             </form>
             <button disabled="disabled" type="button" class="btn btn-danger" id="dis">Discart</button>
         </div>
@@ -177,7 +178,6 @@
 @endsection
 
 @section('script')
-    
     <script>
         $(document).ready(function () {
             // autosearch
@@ -212,29 +212,44 @@
                 if(data != ''){
                     
                     var i = $('tr').length;
-                   
+                    var arr = [];
                         $.post("{{ route('getTable') }}", {data:data,_token:_token,i:i}, function (ret) {
-                        // console.log(ret);                        
-                            $("#testTable").append(ret);
+                        console.log(ret.id);                        
+                            $("#testTable").append(ret.output);
                             
                             $('.price').each(function() {
                                 $(calculateSum);
                             });
-                            var t = $('#tableData').prop('outerHTML');
+
+                            
+                            // var t = $('#tableData').prop('outerHTML');
                             // alert(t);
                             //$("#d").html(t);
                             
-                            $("#t_data").val(t);
+                            // $("#t_data").val(t);
+                            var number = ret.tid;
+                            $("#testIds").val(function() {
+                                if (this.value == '') {
+                                    return number;
+                                } else {
+                                    return this.value +',' + number;
+                                }
+                            });
         
                         });
                    
                 }
+
+                $('#search').val('');
                 
                 // count table row
                 var tr = $('table tr').length;
                 if(tr >= 2){
                     $('#con').prop('disabled', false);
                     $('#dis').prop('disabled', false);
+                }else{
+                    $('#con').prop('disabled', true);
+                    $('#dis').prop('disabled', true);
                 }
 
             });
@@ -268,6 +283,26 @@
             var t = $('#tableData').prop('outerHTML');
             // alert(t);
             //$("#d").html(t);
+            $("#t_data").val(t);
+
+
+            // count table row
+            var tr = $('table tr').length;
+            if(tr >= 3){
+                $('#con').prop('disabled', false);
+                $('#dis').prop('disabled', false);
+            }else{
+                $('#con').prop('disabled', true);
+                $('#dis').prop('disabled', true);
+            }
+        }
+
+        function gotoprint() {
+            alert();
+            var t = $('#tableData').prop('outerHTML');
+            // alert(t);
+            //$("#d").html(t);
+            alert(t);
             $("#t_data").val(t);
         }
 

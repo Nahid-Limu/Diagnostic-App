@@ -37,10 +37,14 @@ class HomeController extends Controller
     
     public function print(Request $request)
     {
+        // $testIds = explode(",", $request->testIds);
+        // dd(json_encode($testIds));
+        // dd(json_decode(json_encode($testIds)));
+        $testIds = $request->testIds;
         $data =  $request->t_data;
         
-        //return view('print', compact(['data']));
-        return view('print')->with('data', $data);
+        return view('print', compact('data','testIds'));
+        // return view('print')->with('data', $data);
     }
 
     public function insertPost(Request $request)
@@ -94,12 +98,18 @@ class HomeController extends Controller
             <td>'.$test->test_name.'</td>
             <td>'.$test->test_code.'</td>
             <td class ="price">'.$test->test_price.'</td>
-            <td onclick="removeRow(\'test\'+'.$test->id.')"><i class="fa fa-remove" style="font-size:24px; color:red;"></i></td>';
+            <td class ="testaction" onclick="removeRow(\'test\'+'.$test->id.')"><i class="fa fa-remove" style="font-size:24px; color:red;"></i></td>';
           $no++;
+          $tid = $test->id;
         }
         $output .='</tr>';
+        
 
-        return $output;
+        // return [$output, $id];
+        return response()->json([
+            'output' => $output,
+            'tid' => $tid
+        ]);
         
     }
 
