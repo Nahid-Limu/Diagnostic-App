@@ -30,34 +30,6 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function insert()
-    {
-        return view('insert');
-    }
-    
-    public function print(Request $request)
-    {
-        // $testIds = explode(",", $request->testIds);
-        // dd(json_encode($testIds));
-        // dd(json_decode(json_encode($testIds)));
-        $testIds = $request->testIds;
-        $data =  $request->t_data;
-        
-        return view('print', compact('data','testIds'));
-        // return view('print')->with('data', $data);
-    }
-
-    public function insertPost(Request $request)
-    {
-        $test = new Test;
-
-        $test->test_name = $request->name;
-        $test->test_code = "101";
-        $test->test_price = 200;
-        
-        $test->save();
-    }
-
     public function autoSearch(Request $request)
     {
         // $search = $request->search;
@@ -112,5 +84,38 @@ class HomeController extends Controller
         ]);
         
     }
+
+    public function insert()
+    {
+        return view('insert');
+    }
+    
+    public function print(Request $request)
+    {
+        dd($request->all());
+        // $testIds = explode(",", $request->testIds);
+        // dd(json_encode($testIds));
+        // dd(json_decode(json_encode($testIds)));
+        $testIds = $request->testIds;
+        $data =  $request->t_data;
+        
+        return view('print', compact('data','testIds'));
+        // return view('print')->with('data', $data);
+    }
+
+    public function insertPost(Request $request)
+    {
+        $test = new Test;
+
+        $test->test_name = $request->name;
+        $test->test_code = "101";
+        $test->test_price = 200;
+        
+        $test->save();
+    }
+
+    
+
+    
 
 }

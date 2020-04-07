@@ -95,6 +95,14 @@
                 background-repeat: no-repeat;
                 background-size:cover;
             }
+
+            .ErrorMsg{
+                color: red;
+            }
+
+            .errorInputBox {
+                border: 1px solid red !important;
+            }
             
     </style>
 @endsection
@@ -154,13 +162,15 @@
             </tbody> 
         </table>
         <div style=" display: flex; justify-content: center;">
-            <form action="{{ route('print') }}" method="POST">
+            {{-- <form action="{{ route('print') }}" method="POST">
                 @csrf
                 <button disabled="disabled" class="btn btn-primary" type="submit" id="con" onclick="gotoprint()"><i class="fas fa-sign-out-alt"></i> Confirm</button>
             
                 <input  type="hidden" value="" id="t_data" name="t_data">
                 <input  type="hidden" value="" id="testIds" name="testIds">
-            </form>
+            </form> --}}
+            <button disabled="disabled" class="btn btn-primary" type="submit" id="con" onclick="userRegModal()"><i class="fas fa-sign-out-alt"></i> Confirm</button>
+            
             <button disabled="disabled" type="button" class="btn btn-danger" id="dis">Discart</button>
         </div>
     </div>
@@ -174,6 +184,9 @@
     @include('includes.footer')
     
 </div>
+    {{-- userRegistationModal [start] --}}
+    @include('userRegistationModal')
+    {{-- userRegistationModal [end] --}}
 {{-- Rockstar --}}
 @endsection
 
@@ -297,12 +310,10 @@
             }
         }
 
-        function gotoprint() {
-            alert();
+        function userRegModal() {
+            $("#myModal").modal();
+            
             var t = $('#tableData').prop('outerHTML');
-            // alert(t);
-            //$("#d").html(t);
-            alert(t);
             $("#t_data").val(t);
         }
 
