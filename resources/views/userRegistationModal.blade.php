@@ -13,41 +13,44 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form form action="{{ route('ClintReg') }}" method="" id="ClintRegistationForm">
+                <form form action="{{ route('print') }}" id="goToPrintForm">
                     @csrf
                     {{-- hidden inputs [start] --}}
                     <input type="hidden" value="" id="t_data" name="t_data">
-                    <input type="hidden" value="" id="testIds" name="testIds">
+                    <input type="hidden" value="" id="InvoiceID" name="InvoiceID">
+                    {{-- hidden inputs [end] --}}
+                </form> 
+
+                <form id="ClintRegistationForm">  
+                    @csrf
+                    {{-- hidden inputs [start] --}}
+                    <input type="hidden" value="" id="testIds" name="test_ids">
+                    <input type="text" value="" id="test_price" name="test_price">
                     {{-- hidden inputs [end] --}}
                     
                     <div class="form-group">
-                        <label for="inputAddress">Address</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                        <label for="inputAddress">Search Clint Id</label>
+                        <input onkeyup="clintIdSearchFunction()" type="text" class="form-control" id="clintIdSearch" placeholder="Search Clint Id">
                     </div>
-                    <div class="form-group">
-                        <label for="inputState">State</label>
-                        <select id="inputState" class="form-control">
-                            <option selected>Choose...</option>
-                            <option>...</option>
-                        </select>
-                    </div>
-
+                    <hr>
+                    <h5 class="text-center text-success">New Patient</h5>
+                    <hr>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="clintName">Name</label>
-                            <input type="text" class="form-control" id="clintName" name="clintName" placeholder="Name [EX: Feroz Mahmud] ">
+                            <input type="text" class="form-control" id="clintName" name="clint_name" placeholder="Name [EX: Feroz Mahmud] ">
                             <span id="clintNameError"></span>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="age">Age</label>
-                            <input type="number" class="form-control" id="age" name="age" placeholder="Age [EX: 28] ">
+                            <input type="number" class="form-control" id="age" name="clint_age" placeholder="Age [EX: 28] ">
                             <span id="ageError"></span>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="sex">Sex</label>
-                            <select id="sex" name="sex" class="form-control">
+                            <select id="sex" name="clint_sex" class="form-control">
                                 <option selected>Choose...</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -55,18 +58,22 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="tel">Phone</label>
-                            <input type="tel" class="form-control" id="tel" name="tel" max="11"  placeholder="Tel [EX: 01719205019]">
+                            <input type="tel" class="form-control" id="tel" name="clint_tel" max="11"  placeholder="Tel [EX: 01719205019]">
                             <span id="telError"></span>
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <label for="address">Address</label>
-                        <textarea type="text" class="form-control" id="address" name="address" placeholder="Address [EX: Islambag, Panchagarh]"></textarea>
+                        <textarea type="text" class="form-control" id="address" name="clint_address" placeholder="Address [EX: Islambag, Panchagarh]"></textarea>
                         <span id="addressError"></span>
                     </div>
-                    
-                    {{-- <button type="submit" class="btn btn-primary">Sign in</button> --}}
-                   
+
+                    <div class="form-group">
+                        <label for="ref_dr">Ref Dr</label>
+                        <input type="text" class="form-control" id="ref_dr" name="ref_dr" placeholder="Ref Dr [EX: Baharam Ali]">
+                        <span id="ref_drError"></span>
+                    </div>
                 </form>
             </div>
 
@@ -81,12 +88,31 @@
 </div>
 <!-- Modal end -->
 <script>
+
+    function clintIdSearchFunction() {
+        var searchID = $("#clintIdSearch").val();
+        alert(searchID);
+
+        $.ajax({
+            type: 'GET', //THIS NEEDS TO BE GET
+            url: "{{ route('autocompleteClint') }}",
+            data: {searchID: searchID},
+            // dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                
+            },error:function(){ 
+                console.log(data);
+            }
+        });
+    }
+
     function ClintRegistation(params) {
         
         var tel = $( "#tel" ).val();
-    
         var numPattern = /[0-9]/g;
         var resultTel = tel.match(numPattern);
+
         // alert(tel.length);
         if (resultTel != null && tel.length == 11) {
             $("#tel").removeClass("errorInputBox");
@@ -124,11 +150,39 @@
             $( "#addressError").text('Address Is Required').addClass("ErrorMsg");
         }
 
-        if (resultTel != null && tel.length == 11 && $( "#clintName" ).val() && $( "#age" ).val() && $( "#address" ).val() ) {
-            alert();
-            document.getElementById("ClintRegistationForm").method = "post";
-            document.getElementById("ClintRegistationForm").submit();
+        if ( $( "#ref_dr" ).val() != '' ) {
+            $("#ref_dr").removeClass("errorInputBox");
+            $( "#ref_drError").text('').removeClass("ErrorMsg");;
+            
+        } else {
+            $("#ref_dr").addClass("errorInputBox");
+            $( "#ref_drError").text('Ref Dr Name Is Required').addClass("ErrorMsg");
         }
         
+        if (resultTel != null && tel.length == 11 && $( "#clintName" ).val() && $( "#age" ).val() && $( "#address" ).val() && $( "#ref_dr" ).val() ) {
+            
+            var _token = '{{ csrf_token() }}';
+            var myData =  $('#ClintRegistationForm').serialize();
+            // alert(data);
+            $.ajax({
+                type: 'POST', //THIS NEEDS TO BE GET
+                url: "{{ route('ClintReg') }}",
+                // data: {_token: _token, clintName: clintName,age: age,sex: sex,address: address,ref_dr: ref_dr},
+                // data: {_token: _token, myData: myData},
+                data: myData,
+                // dataType: 'json',
+                success: function (response) {
+                    console.log(response);
+                    document.getElementById("ClintRegistationForm").reset();
+                    document.getElementById("InvoiceID").value = response.InvoiceID;
+                    document.getElementById("goToPrintForm").method = "post";
+                    document.getElementById("goToPrintForm").submit();
+                    // $("#ClintRegistationForm").trigger("reset");
+                    
+                },error:function(){ 
+                    console.log(response);
+                }
+            });
+        }   
     }
 </script>

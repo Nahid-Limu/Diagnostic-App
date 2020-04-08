@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/getTable', 'HomeController@getTable')->name('getTable');
 
     Route::post('/ClintReg', 'ClintController@ClintReg')->name('ClintReg');
+    Route::post('/print', 'ClintController@print')->name('print');
+    Route::get('autocompleteClint', 'ClintController@autocompleteClint')->name('autocompleteClint');
 
     Route::get('/insert', 'HomeController@insert')->name('insert');
     Route::post('/insertPost', 'HomeController@insertPost')->name('insertPost');

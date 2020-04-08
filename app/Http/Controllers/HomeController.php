@@ -32,27 +32,18 @@ class HomeController extends Controller
 
     public function autoSearch(Request $request)
     {
-        // $search = $request->search;
-        // $tests = Test::where('test_name','LIKE',"%{$search}%")->pluck('test_name');
-        // return $tests;
-
         if ($request->search) {
             
             $search = $request->search;
-
             $tests = Test::where('test_name','LIKE',"%{$search}%")->get();
             //dd($users);
             $output = '<ul>';
-            
-            
             foreach ($tests as $test) {
                 $output .='<li>'.$test->test_name.'</li>';
             }
             $output .='</ul>';	
-        
             return $output;
-        
-         }
+        }
     }
 
     public function getTable(Request $request)
@@ -75,32 +66,16 @@ class HomeController extends Controller
           $tid = $test->id;
         }
         $output .='</tr>';
-        
 
-        // return [$output, $id];
         return response()->json([
             'output' => $output,
             'tid' => $tid
         ]);
-        
     }
 
     public function insert()
     {
         return view('insert');
-    }
-    
-    public function print(Request $request)
-    {
-        dd($request->all());
-        // $testIds = explode(",", $request->testIds);
-        // dd(json_encode($testIds));
-        // dd(json_decode(json_encode($testIds)));
-        $testIds = $request->testIds;
-        $data =  $request->t_data;
-        
-        return view('print', compact('data','testIds'));
-        // return view('print')->with('data', $data);
     }
 
     public function insertPost(Request $request)

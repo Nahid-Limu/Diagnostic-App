@@ -123,12 +123,8 @@
                         </div>
                     </div>
                 </form>
-
-                <div  id="testlist" style="margin: auto;
-                position: absolute;">
-        
+                <div  id="testlist" style="margin: auto; position: absolute;">
                 </div>
-
             </div>
         </div>
 
@@ -147,45 +143,31 @@
                 
             </tr>
             </thead>
-            <tbody  id="testTable" style="text-align: center; font-style: bold;">
-            
-                        
+
+            <tbody  id="testTable" style="text-align: center; font-style: bold;">         
             </tbody>
-            <tbody style="background:steelblue; text-align: center; font-style: bold;">
+
+            <tbody id="rseTbody" style="background:steelblue; text-align: center; font-style: bold;">
                 <tr >
-                    <td></td>
+                    <td>&nbsp</td>
                     <td><b> Total</b></td>
                     <td><b>:</b></td>
                     <td ><b id="result" ><b></b></td>
-                    <td></td>
+                    <td class ="testaction"></td>
                 </tr>
             </tbody> 
         </table>
         <div style=" display: flex; justify-content: center;">
-            {{-- <form action="{{ route('print') }}" method="POST">
-                @csrf
-                <button disabled="disabled" class="btn btn-primary" type="submit" id="con" onclick="gotoprint()"><i class="fas fa-sign-out-alt"></i> Confirm</button>
-            
-                <input  type="hidden" value="" id="t_data" name="t_data">
-                <input  type="hidden" value="" id="testIds" name="testIds">
-            </form> --}}
             <button disabled="disabled" class="btn btn-primary" type="submit" id="con" onclick="userRegModal()"><i class="fas fa-sign-out-alt"></i> Confirm</button>
-            
             <button disabled="disabled" type="button" class="btn btn-danger" id="dis">Discart</button>
         </div>
     </div>
-    
-    
-    
-   
-    {{-- <footer class="row">
-        @include('includes.footer')
-    </footer> --}}
+
     @include('includes.footer')
     
 </div>
     {{-- userRegistationModal [start] --}}
-    @include('userRegistationModal')
+        @include('userRegistationModal')
     {{-- userRegistationModal [end] --}}
 {{-- Rockstar --}}
 @endsection
@@ -198,7 +180,6 @@
                 
                 var _token = '{{ csrf_token() }}';
                 var search = $("#search").val();
-
                 if(search != ''){
                     $.post("{{ route('autoSearch') }}", {search:search,_token:_token}, function (ret) {
                     
@@ -207,9 +188,6 @@
     
                     });
                 }
-                
-                
-
             });
             
 
@@ -223,38 +201,29 @@
 
                 // search data for table
                 if(data != ''){
-                    
-                    var i = $('tr').length;
-                    var arr = [];
-                        $.post("{{ route('getTable') }}", {data:data,_token:_token,i:i}, function (ret) {
-                        console.log(ret.id);                        
-                            $("#testTable").append(ret.output);
-                            
-                            $('.price').each(function() {
-                                $(calculateSum);
-                            });
 
-                            
-                            // var t = $('#tableData').prop('outerHTML');
-                            // alert(t);
-                            //$("#d").html(t);
-                            
-                            // $("#t_data").val(t);
-                            var number = ret.tid;
-                            $("#testIds").val(function() {
-                                if (this.value == '') {
-                                    return number;
-                                } else {
-                                    return this.value +',' + number;
-                                }
-                            });
-        
+                    var i = $('tr').length;
+                    $.post("{{ route('getTable') }}", {data:data,_token:_token,i:i}, function (ret) {
+                        console.log(ret.id);                        
+                        $("#testTable").append(ret.output);
+
+                        $('.price').each(function() {
+                            $(calculateSum);
                         });
-                   
+                        
+                        var number = ret.tid;
+                        $("#testIds").val(function() {
+                            if (this.value == '') {
+                                return number;
+                            } else {
+                                return this.value +',' + number;
+                            }
+                        });
+    
+                    });
                 }
 
                 $('#search').val('');
-                
                 // count table row
                 var tr = $('table tr').length;
                 if(tr >= 2){
@@ -264,10 +233,7 @@
                     $('#con').prop('disabled', true);
                     $('#dis').prop('disabled', true);
                 }
-
             });
-
-            
         });
 
         function calculateSum() {
@@ -283,7 +249,9 @@
                     }
                 });    
                 $('#result').text(sum);
-        };
+                $('#test_price').val(sum);
+                
+        }
 
         function removeRow(rowId) {
             alert(rowId+' delete me');
