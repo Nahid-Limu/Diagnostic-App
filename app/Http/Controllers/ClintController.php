@@ -14,20 +14,38 @@ class ClintController extends Controller
 {
     public function ClintReg(Request $request)
     {
-        $Clint = new Clint;
-        $Clint->clint_name = $request->clint_name;
-        $Clint->clint_age = $request->clint_age;
-        $Clint->clint_sex = $request->clint_sex;
-        $Clint->clint_tel = $request->clint_tel;
-        $Clint->clint_address = $request->clint_address;
-        $Clint->ref_dr = $request->ref_dr;
-        $Clint->save();
+        $ThisYear = date("Y");
+
+        if ($request->has('exist_clint_id')) {
+
+            $Clint = Clint::find($request->exist_clint_id);
+            $update_age = $ThisYear - $Clint->clint_birth_year;
+            $Clint->clint_age = $update_age;
+            $Clint->save();
+            
+        }else {
+
+            $clint_birth_year = $ThisYear - $request->clint_age;
+
+            $Clint = new Clint;
+            $Clint->clint_name = $request->clint_name;
+            $Clint->clint_age = $request->clint_age;
+            $Clint->clint_birth_year = $clint_birth_year;
+            $Clint->clint_sex = $request->clint_sex;
+            $Clint->clint_tel = $request->clint_tel;
+            $Clint->clint_address = $request->clint_address;
+            $Clint->save();
+        }
+
+        
+        
 
         $Invoice = new Invoice;
         $Invoice->user_id = Auth::user()->id;
         $Invoice->clint_id = $Clint->id;
         $Invoice->test_ids = $request->test_ids;
         $Invoice->test_price = $request->test_price;
+        $Invoice->ref_dr = $request->ref_dr;
         $Invoice->save();
 
         return response()->json( ['InvoiceID' => $Invoice->id] );
@@ -43,11 +61,14 @@ class ClintController extends Controller
 
     public function autocompleteClint(Request $request)
     {
-        // return $request->searchID;
-        $data = Item::select("name")
-                ->where("name","LIKE","%{$request->input('query')}%")
-                ->get();
-   
-        return response()->json($data);
+        // return $request->ClintID;
+        $data = Clint::find($request->ClintID);
+        if ($data) {
+            return response()->json($data);
+        } else {
+            return response()->json(0);
+        }
+        
+        
     }
 }

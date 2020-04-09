@@ -17,9 +17,9 @@ class CreateClintsTable extends Migration
             $table->bigIncrements('id')->index();
             $table->string('clint_name')->nullable();
             $table->integer('clint_age')->nullable();
+            $table->year('clint_birth_year');   
             $table->string('clint_sex')->nullable();
-            $table->integer('clint_tel')->nullable();
-            $table->string('ref_dr')->nullable();
+            $table->string('clint_tel')->nullable();
             $table->string('clint_address')->nullable();
             $table->timestamps();
         });

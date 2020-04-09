@@ -45,6 +45,7 @@
                             <div class="col invoice-to">
                                 <div class="text-gray-light">INVOICE TO:</div>
                                 {{-- <h5 class="to font-weight-bold">Name: {{ strtoupper($Clint->clint_name) }}</h5> --}}
+                                <div class="font-weight-bold">Patient ID: {{ strtoupper($Clint->id) }}</div>
                                 <div class="font-weight-bold">Name: {{ strtoupper($Clint->clint_name) }}</div>
                                 <div class="font-weight-bold">Age: {{ strtoupper($Clint->clint_age) }}</div>
                                 <div class="font-weight-bold">Sex: {{ strtoupper($Clint->clint_sex) }}</div>
@@ -55,6 +56,7 @@
                                 <h1 class="invoice-id">INVOICE - {{ $lastInvoice->id }}</h1>
                                 <div class="date">Date of Invoice: {{ $lastInvoice->created_at->toDateString() }}</div>
                                 <div class="date">Due Date: 30/10/2018</div>
+                                <div class="font-weight-bold">REF DR: {{ strtoupper($lastInvoice->ref_dr) }}</div>
                             </div>
                         </div>
                         <hr>

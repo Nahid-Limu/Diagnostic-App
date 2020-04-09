@@ -21,19 +21,25 @@
                     {{-- hidden inputs [end] --}}
                 </form> 
 
+                {{-- Search Clint [start] --}}
+                <div class="d-flex justify-content-center input-group mb-3">
+                    <input type="text" class="form-control" id="clintIdSearch" placeholder="Search Clint Id" >
+                    <div class="input-group-append">
+                      <button class="form-control btn-success" onclick="clintIdSearchFunction()" >Search</button>
+                    </div>
+                </div>
+                {{-- Search Clint [end] --}}
+
                 <form id="ClintRegistationForm">  
                     @csrf
                     {{-- hidden inputs [start] --}}
+                    <input type="hidden" value="" id="exist_clint_id" name="exist_clint_id" disabled>
                     <input type="hidden" value="" id="testIds" name="test_ids">
-                    <input type="text" value="" id="test_price" name="test_price">
+                    <input type="hidden" value="" id="test_price" name="test_price">
                     {{-- hidden inputs [end] --}}
                     
-                    <div class="form-group">
-                        <label for="inputAddress">Search Clint Id</label>
-                        <input onkeyup="clintIdSearchFunction()" type="text" class="form-control" id="clintIdSearch" placeholder="Search Clint Id">
-                    </div>
                     <hr>
-                    <h5 class="text-center text-success">New Patient</h5>
+                    <h5 class="text-center text-success" id="p_status">New Patient</h5>
                     <hr>
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -79,8 +85,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button onclick="ClintRegistation()" type="button" class="btn btn-success">Registation</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                
             </div>
 
         </div>
@@ -90,19 +95,35 @@
 <script>
 
     function clintIdSearchFunction() {
-        var searchID = $("#clintIdSearch").val();
-        alert(searchID);
+        var ClintID = $("#clintIdSearch").val();
+        // alert(ClintID);
 
         $.ajax({
             type: 'GET', //THIS NEEDS TO BE GET
             url: "{{ route('autocompleteClint') }}",
-            data: {searchID: searchID},
+            data: {ClintID: ClintID},
             // dataType: 'json',
-            success: function (data) {
-                console.log(data);
+            success: function (response) {
+                console.log(response);
+                $("#clintIdSearch").val('');
+                if (response != 0) {
+                    // alert(response.clint_name);
+                    
+                    $( "#p_status" ).text('Old Patient');
+
+                    $("#exist_clint_id").prop('disabled', false);
+                    $( "#exist_clint_id" ).val(response.id);
+
+                    $( "#clintName" ).val(response.clint_name);
+                    $( "#age" ).val(response.clint_age) ;
+                    $("#sex option[value=" + response.clint_sex + "]").prop('selected', true);
+                    $( "#tel" ).val(response.clint_tel);
+                    $( "#address" ).val(response.clint_address);
+                    $( "#ref_dr" ).val(response.ref_dr)
+                }
                 
             },error:function(){ 
-                console.log(data);
+                console.log(response);
             }
         });
     }
@@ -113,11 +134,10 @@
         var numPattern = /[0-9]/g;
         var resultTel = tel.match(numPattern);
 
-        // alert(tel.length);
+       
         if (resultTel != null && tel.length == 11) {
             $("#tel").removeClass("errorInputBox");
             $( "#telError").text('').removeClass("ErrorMsg");;
-            
         } else {
             $("#tel").addClass("errorInputBox");
             $( "#telError").text('Tel Format is Worong').addClass("ErrorMsg");
@@ -172,11 +192,15 @@
                 data: myData,
                 // dataType: 'json',
                 success: function (response) {
-                    console.log(response);
-                    document.getElementById("ClintRegistationForm").reset();
-                    document.getElementById("InvoiceID").value = response.InvoiceID;
-                    document.getElementById("goToPrintForm").method = "post";
-                    document.getElementById("goToPrintForm").submit();
+                    console.log(response.InvoiceID);
+                    if (response.InvoiceID) {
+                        document.getElementById("ClintRegistationForm").reset();
+                        document.getElementById("InvoiceID").value = response.InvoiceID;
+                        document.getElementById("goToPrintForm").method = "post";
+                        document.getElementById("goToPrintForm").submit();
+                    }
+                    
+                    
                     // $("#ClintRegistationForm").trigger("reset");
                     
                 },error:function(){ 
@@ -184,5 +208,21 @@
                 }
             });
         }   
+    }
+
+    function dismissModal() {
+
+        $("#clintIdSearch").val('');
+
+        $( "#p_status" ).text('New Patient');
+
+        $("#exist_clint_id").prop('disabled', true);
+        $( "#exist_clint_id" ).val('');
+        
+        document.getElementById("ClintRegistationForm").reset()
+    }
+
+    function testfun() {
+        alert();
     }
 </script>

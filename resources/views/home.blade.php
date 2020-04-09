@@ -248,7 +248,7 @@
                         sum += parseFloat(value);
                     }
                 });    
-                $('#result').text(sum);
+                $('#result').text(sum+' TK');
                 $('#test_price').val(sum);
                 
         }
@@ -279,7 +279,7 @@
         }
 
         function userRegModal() {
-            $("#myModal").modal();
+            $("#ClintRegistationModal").modal();
             
             var t = $('#tableData').prop('outerHTML');
             $("#t_data").val(t);
@@ -289,9 +289,14 @@
     <script>
         $(document).ready(function(){
             $('#dis').click(function(){ 
-                alert('okk');
-                $("#tableData").find("tr:gt(0)").remove();
-              });
+
+                $('#result').text('');
+                $('#test_price').val('');
+                $("#testTable").empty();
+                $('#con').prop('disabled', true);
+                $('#dis').prop('disabled', true);
+                // $("#tableData").find("tr:gt(0)").remove();
+            });
         });
     </script>
     <script>

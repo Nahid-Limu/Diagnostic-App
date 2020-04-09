@@ -19,6 +19,7 @@ class CreateInvoicesTable extends Migration
             $table->integer('clint_id')->nullable()->index();
             $table->string('test_ids')->nullable()->index();
             $table->integer('test_price')->nullable();
+            $table->string('ref_dr')->nullable();
             $table->timestamps();
         });
     }
