@@ -279,6 +279,7 @@
         }
 
         function userRegModal() {
+            // alert();
             $("#ClintRegistationModal").modal();
             
             var t = $('#tableData').prop('outerHTML');

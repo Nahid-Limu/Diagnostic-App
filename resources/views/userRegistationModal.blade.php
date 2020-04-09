@@ -1,6 +1,6 @@
 
 <!-- Modal start -->
-<div class="modal fade" id="myModal">
+<div class="modal fade" id="ClintRegistationModal">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -85,7 +85,9 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                
+                <button onclick="ClintRegistation()" type="button" class="btn btn-success">Registation</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button onclick="testfun()" type="button" class="btn btn-danger">test</button>
             </div>
 
         </div>
