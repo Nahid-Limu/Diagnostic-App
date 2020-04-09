@@ -20,7 +20,10 @@ class ClintController extends Controller
 
             $Clint = Clint::find($request->exist_clint_id);
             $update_age = $ThisYear - $Clint->clint_birth_year;
+
             $Clint->clint_age = $update_age;
+            $Clint->clint_tel = $request->clint_tel;
+            $Clint->clint_address = $request->clint_address;
             $Clint->save();
             
         }else {
@@ -36,9 +39,6 @@ class ClintController extends Controller
             $Clint->clint_address = $request->clint_address;
             $Clint->save();
         }
-
-        
-        
 
         $Invoice = new Invoice;
         $Invoice->user_id = Auth::user()->id;
@@ -61,7 +61,6 @@ class ClintController extends Controller
 
     public function autocompleteClint(Request $request)
     {
-        // return $request->ClintID;
         $data = Clint::find($request->ClintID);
         if ($data) {
             return response()->json($data);

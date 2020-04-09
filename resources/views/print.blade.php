@@ -13,13 +13,14 @@
 
             <div class="toolbar hidden-print">
                 <div class="text-right">
-                    <button id="printInvoice" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
-                    <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
+                    <button onclick="window.location.href = '{{ route('home') }}' " class="btn btn-primary float-left"><i class="fa fa-home"></i> Home</button>
+                    <button onclick="printDiv('printableArea')" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
+                    <button id="exportPDF" value='{{ $lastInvoice->id }}' class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
                 </div>
                 <hr>
             </div>
             <div class="invoice overflow-auto">
-                <div style="min-width: 600px">
+                <div id="printableArea" style="min-width: 600px">
                     <header>
                         <div class="row">
                             <div class="col">
@@ -80,13 +81,12 @@
         </div>
     </div>
     
-    {{-- <button type="button" onclick="window.print();" class="btn btn-danger" id="dis">Print</button> --}}
-    {{-- <button type="button" onclick="printFunction();" class="btn btn-danger" id="dis">OKAY <i class="fa fa-check" aria-hidden="true"></i></button> --}}
+   <div id="editor"></div>
 
 @endsection
 
 @section('script')
-    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function(){
             // alert('okk');
@@ -94,9 +94,41 @@
             $('table#tableData td.testaction ').remove();
         });
 
-        function printFunction(params) {
-            $("#myModal").modal();
+
+        //print Div//
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+
+            window.location.href = "{{ route('home') }}";
         }
 
+        
+
     </script>
+    <script>
+		// here we will write our custom code for printing our div
+		$(function(){
+			var doc = new jsPDF();
+            var specialElementHandlers = {
+                '#editor': function (element, renderer) {
+                    return true;
+                }
+            };
+
+            $('#exportPDF').click(function () {
+                doc.fromHTML($('#printableArea').html(), 15, 15, {
+                    'width': 170,
+                        'elementHandlers': specialElementHandlers
+                });
+                doc.save('INVOICE-'+this.value+'.pdf');
+            });
+		});
+	</script>
 @endsection
