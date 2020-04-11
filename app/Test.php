@@ -10,4 +10,5 @@ class Test extends Model
     protected $fillable = [
         'country'
     ];
+    public $timestamps = true;
 }

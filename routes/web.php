@@ -18,6 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
+
+    /////////////////////////////// USER AREA ///////////////////////////////
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/autoSearch', 'HomeController@autoSearch')->name('autoSearch');
     Route::post('/getTable', 'HomeController@getTable')->name('getTable');
@@ -28,15 +30,16 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/insert', 'HomeController@insert')->name('insert');
     Route::post('/insertPost', 'HomeController@insertPost')->name('insertPost');
+
+    /////////////////////////////// ADMIN AREA ///////////////////////////////
+    Route::get('/dashbord', 'AdminController@dashbord')->name('dashbord');
+    
+    Route::get('/testSetting', 'TestController@testSetting')->name('testSetting');
+    Route::post('/addTest', 'TestController@addTest')->name('addTest');
+    Route::get('/editTest/{id}', 'TestController@editTest')->name('editTest');
+    Route::post('/updateTest', 'TestController@updateTest')->name('updateTest');
+    Route::get('/deleteTest/{id}', 'TestController@deleteTest')->name('deleteTest');
 });
 
-// Route::get('/home', 'HomeController@index')->name('home');
-// Route::post('/print', 'HomeController@print')->name('print');
-// Route::get('/insert', 'HomeController@insert')->name('insert');
-
-// Route::post('/insertPost', 'HomeController@insertPost')->name('insertPost');
-
-// Route::post('/autoSearch', 'HomeController@autoSearch')->name('autoSearch');
-// Route::post('/getTable', 'HomeController@getTable')->name('getTable');
 
 
