@@ -54,7 +54,7 @@
                                 {{-- <div class="email"><a href="mailto:john@example.com">john@example.com</a></div> --}}
                             </div>
                             <div class="col invoice-details">
-                                <h1 class="invoice-id">INVOICE - {{ $lastInvoice->id }}</h1>
+                                <h1 class="invoice-id">{{ $lastInvoice->invoice_id }}</h1>
                                 <div class="date">Date of Invoice: {{ $lastInvoice->created_at->toDateString() }}</div>
                                 <div class="date">Due Date: 30/10/2018</div>
                                 <div class="font-weight-bold">REF DR: {{ strtoupper($lastInvoice->ref_dr) }}</div>

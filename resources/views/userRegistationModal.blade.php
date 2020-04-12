@@ -28,6 +28,15 @@
                       <button class="form-control btn-success" onclick="clintIdSearchFunction()" >Search</button>
                     </div>
                 </div>
+                <div class="d-flex justify-content-center">
+                    <label class="radio-inline">Search By :</label>
+                    <label class="radio-inline">
+                        <input type="radio" value="id" name="searchOption" id="radio1" style="margin-left: 10px;" checked> ID
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" value="phone" name="searchOption" id="radio2" style="margin-left: 10px;"> Phone
+                    </label>
+                </div>
                 {{-- Search Clint [end] --}}
 
                 <form id="ClintRegistationForm">  
@@ -84,9 +93,9 @@
             </div>
 
             <!-- Modal footer -->
-            <div class="modal-footer">
-                <button onclick="ClintRegistation()" type="button" class="btn btn-success">Registation</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <div class="modal-footer" style="display: inline">
+                <button onclick="ClintRegistation()" type="button" class="btn btn-success float-right">Registation</button>
+                <button onclick="dismissModal()" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 {{-- <button onclick="testfun()" type="button" class="btn btn-danger">test</button> --}}
             </div>
 
@@ -98,36 +107,53 @@
 
     function clintIdSearchFunction() {
         var ClintID = $("#clintIdSearch").val();
-        // alert(ClintID);
+        var searchOption = $("input[name='searchOption']:checked"). val();
+        // alert(searchOption);
 
-        $.ajax({
-            type: 'GET', //THIS NEEDS TO BE GET
-            url: "{{ route('autocompleteClint') }}",
-            data: {ClintID: ClintID},
-            // dataType: 'json',
-            success: function (response) {
-                console.log(response);
-                $("#clintIdSearch").val('');
-                if (response != 0) {
-                    // alert(response.clint_name);
+        if ($("#clintIdSearch").val() == '') {
+            $("#clintIdSearch").addClass("errorInputBox");
+        } else {
+
+            $.ajax({
+                type: 'GET', //THIS NEEDS TO BE GET
+                url: "{{ route('autocompleteClint') }}",
+                data: {searchOption: searchOption,ClintID: ClintID},
+                // dataType: 'json',
+                success: function (response) {
+                    console.log(response);
                     
-                    $( "#p_status" ).text('Old Patient');
+                    $("#clintIdSearch").val('');
+                    if (response != 0) {
+                        $("#clintIdSearch").removeClass("errorInputBox");
+                        // alert(response.clint_name);
+                        
+                        $( "#p_status" ).text('Old Patient');
 
-                    $("#exist_clint_id").prop('disabled', false);
-                    $( "#exist_clint_id" ).val(response.id);
+                        $("#exist_clint_id").prop('disabled', false);
+                        $( "#exist_clint_id" ).val(response.id);
 
-                    $( "#clintName" ).val(response.clint_name);
-                    $( "#age" ).val(response.clint_age) ;
-                    $("#sex option[value=" + response.clint_sex + "]").prop('selected', true);
-                    $( "#tel" ).val(response.clint_tel);
-                    $( "#address" ).val(response.clint_address);
-                    $( "#ref_dr" ).val(response.ref_dr)
+                        $( "#clintName" ).val(response.clint_name);
+                        $( "#age" ).val(response.clint_age) ;
+                        $("#sex option[value=" + response.clint_sex + "]").prop('selected', true);
+                        $( "#tel" ).val(response.clint_tel);
+                        $( "#address" ).val(response.clint_address);
+                        $( "#ref_dr" ).val(response.ref_dr)
+                    }else{
+
+                        $( "#p_status" ).text('New Patient');
+                        document.getElementById("ClintRegistationForm").reset();
+                        $("#ref_dr").removeClass("errorInputBox");
+                        $( "#ref_drError").text('').removeClass("ErrorMsg");
+                    }
+                    
+                },error:function(){ 
+                    console.log(response);
                 }
-                
-            },error:function(){ 
-                console.log(response);
-            }
-        });
+            });
+
+        }
+
+       
     }
 
     function ClintRegistation(params) {
@@ -139,46 +165,46 @@
        
         if (resultTel != null && tel.length == 11) {
             $("#tel").removeClass("errorInputBox");
-            $( "#telError").text('').removeClass("ErrorMsg");;
+            $("#telError").text('').removeClass("ErrorMsg");;
         } else {
             $("#tel").addClass("errorInputBox");
-            $( "#telError").text('Tel Format is Worong').addClass("ErrorMsg");
+            $("#telError").text('Tel Format is Worong').addClass("ErrorMsg");
         }
 
-        if ( $( "#clintName" ).val() != '' ) {
+        if ( $("#clintName" ).val() != '' ) {
             $("#clintName").removeClass("errorInputBox");
-            $( "#clintNameError").text('').removeClass("ErrorMsg");;
+            $("#clintNameError").text('').removeClass("ErrorMsg");;
             
         } else {
             $("#clintName").addClass("errorInputBox");
-            $( "#clintNameError").text('Clint Name Is Required').addClass("ErrorMsg");
+            $("#clintNameError").text('Clint Name Is Required').addClass("ErrorMsg");
         }
 
-        if ( $( "#age" ).val() != '' ) {
+        if ( $("#age" ).val() != '' ) {
             $("#age").removeClass("errorInputBox");
-            $( "#ageError").text('').removeClass("ErrorMsg");;
+            $("#ageError").text('').removeClass("ErrorMsg");;
             
         } else {
             $("#age").addClass("errorInputBox");
-            $( "#ageError").text('Age Is Required').addClass("ErrorMsg");
+            $("#ageError").text('Age Is Required').addClass("ErrorMsg");
         }
 
-        if ( $( "#address" ).val() != '' ) {
+        if ( $("#address" ).val() != '' ) {
             $("#address").removeClass("errorInputBox");
-            $( "#addressError").text('').removeClass("ErrorMsg");;
+            $("#addressError").text('').removeClass("ErrorMsg");;
             
         } else {
             $("#address").addClass("errorInputBox");
-            $( "#addressError").text('Address Is Required').addClass("ErrorMsg");
+            $("#addressError").text('Address Is Required').addClass("ErrorMsg");
         }
 
-        if ( $( "#ref_dr" ).val() != '' ) {
+        if ( $("#ref_dr" ).val() != '' ) {
             $("#ref_dr").removeClass("errorInputBox");
-            $( "#ref_drError").text('').removeClass("ErrorMsg");;
+            $("#ref_drError").text('').removeClass("ErrorMsg");
             
         } else {
             $("#ref_dr").addClass("errorInputBox");
-            $( "#ref_drError").text('Ref Dr Name Is Required').addClass("ErrorMsg");
+            $("#ref_drError").text('Ref Dr Name Is Required').addClass("ErrorMsg");
         }
         
         if (resultTel != null && tel.length == 11 && $( "#clintName" ).val() && $( "#age" ).val() && $( "#address" ).val() && $( "#ref_dr" ).val() ) {
@@ -214,12 +240,15 @@
 
     function dismissModal() {
 
+        $("#tel,#clintName,#age,#address,#ref_dr").removeClass("errorInputBox");
+        $("#telError,#clintNameError,#ageError,#addressError,#ref_drError").text('').removeClass("ErrorMsg");
+
         $("#clintIdSearch").val('');
 
         $( "#p_status" ).text('New Patient');
 
         $("#exist_clint_id").prop('disabled', true);
-        $( "#exist_clint_id" ).val('');
+        $("#exist_clint_id" ).val('');
         
         document.getElementById("ClintRegistationForm").reset()
     }

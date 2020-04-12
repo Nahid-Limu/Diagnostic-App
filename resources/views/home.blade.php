@@ -207,9 +207,10 @@
                         console.log(ret.id);                        
                         $("#testTable").append(ret.output);
 
-                        $('.price').each(function() {
-                            $(calculateSum);
-                        });
+                        // $('.price').each(function() {
+                        //     $(calculateSum);
+                        // });
+                        calculateSum();
                         
                         var number = ret.tid;
                         $("#testIds").val(function() {
@@ -219,7 +220,7 @@
                                 return this.value +',' + number;
                             }
                         });
-    
+
                     });
                 }
 
@@ -236,30 +237,13 @@
             });
         });
 
-        function calculateSum() {
-
-                var sum = 0;
-                // iterate through each td based on class and add the values
-                $(".price").each(function() {
-
-                    var value = $(this).text();
-                    // add only if the value is number
-                    if(!isNaN(value) && value.length != 0) {
-                        sum += parseFloat(value);
-                    }
-                });    
-                $('#result').text(sum+' TK');
-                $('#test_price').val(sum);
-                
-        }
+        
 
         function removeRow(rowId) {
-            alert(rowId+' delete me');
+            // alert(rowId+' delete me');
             $('#'+rowId).remove();
 
-            $('.price').each(function() {
-                $(calculateSum);
-            });
+            calculateSum();
 
             var t = $('#tableData').prop('outerHTML');
             // alert(t);
@@ -278,6 +262,25 @@
             }
         }
 
+        // Price Calculation Function start
+        function calculateSum() {
+
+            var sum = 0;
+            // iterate through each td based on class and add the values
+            $(".price").each(function() {
+
+                var value = $(this).text();
+                // add only if the value is number
+                if(!isNaN(value) && value.length != 0) {
+                    sum += parseFloat(value);
+                }
+            });    
+            $('#result').text(sum+' TK');
+            $('#test_price').val(sum);
+
+        }
+        // Price Calculation Function end
+
         function userRegModal() {
             // alert();
             $("#ClintRegistationModal").modal();
@@ -289,6 +292,7 @@
     </script>
     <script>
         $(document).ready(function(){
+            ///dicurt button action
             $('#dis').click(function(){ 
 
                 $('#result').text('');

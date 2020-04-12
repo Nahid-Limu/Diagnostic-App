@@ -15,9 +15,10 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('invoice_id')->nullable()->index();
             $table->integer('user_id')->nullable()->index();
             $table->integer('clint_id')->nullable()->index();
-            $table->string('test_ids')->nullable()->index();
+            $table->string('test_id')->nullable()->index();
             $table->integer('test_price')->nullable();
             $table->string('ref_dr')->nullable();
             $table->timestamps();
