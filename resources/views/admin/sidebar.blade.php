@@ -52,9 +52,18 @@
 
     <!-- Nav Item - Tables -->
     <li class="nav-item">
-      <a class="nav-link" href="tables.html">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         <i class="far fa-money-bill-alt"></i>
-        <span>Setting Expense</span></a>
+        <span>Expense</span></a>
+      </a>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">Expense Module:</h6>
+          <a class="collapse-item" href="buttons.html">Daily Expense</a>
+          <a class="collapse-item" href="cards.html">Expense History</a>
+          <a class="collapse-item" href="cards.html">Expense Settings</a>
+        </div>
+      </div>
     </li>
 
     <!-- Divider -->

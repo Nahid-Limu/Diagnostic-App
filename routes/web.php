@@ -34,15 +34,24 @@ Route::group(['middleware' => 'auth'], function () {
     /////////////////////////////// ADMIN AREA ///////////////////////////////
     Route::get('/dashbord', 'AdminController@dashbord')->name('dashbord');
     
+    //--test--//
     Route::get('/testSetting', 'TestController@testSetting')->name('testSetting');
     Route::post('/addTest', 'TestController@addTest')->name('addTest');
     Route::get('/editTest/{id}', 'TestController@editTest')->name('editTest');
     Route::post('/updateTest', 'TestController@updateTest')->name('updateTest');
     Route::get('/deleteTest/{id}', 'TestController@deleteTest')->name('deleteTest');
 
+    //--user--//
     Route::get('/userSetting', 'UserController@userSetting')->name('userSetting');
     Route::post('/addUser', 'UserController@addUser')->name('addUser');
     Route::get('/editUser/{id}', 'UserController@editUser')->name('editUser');
+
+    //--expense--//
+    Route::get('/expenseSetting', 'ExpenseController@expenseSetting')->name('expenseSetting');
+    Route::post('/addExpense', 'ExpenseController@addExpense')->name('addExpense');
+    Route::get('/editExpense/{id}', 'ExpenseController@editExpense')->name('editExpense');
+    Route::post('/updateExpense', 'ExpenseController@updateExpense')->name('updateExpense');
+    Route::get('/deleteExpense/{id}', 'ExpenseController@deleteExpense')->name('deleteExpense');
 });
 
 
