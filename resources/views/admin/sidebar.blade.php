@@ -35,7 +35,7 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="charts.html">
+      <a class="nav-link" href="{{route ('userSetting')}}">
         <i class="fas fa-users"></i>
         <span>Setting User</span></a>
     </li>

@@ -101,7 +101,7 @@
             
         } else {
             $("#test_code").addClass("errorInputBox");
-            $( "#test_codeError").text('Test Name Is Required').addClass("ErrorMsg");
+            $( "#test_codeError").text('Test Code Is Required').addClass("ErrorMsg");
         }
         
         if ( $( "#test_name" ).val() != '' ) {

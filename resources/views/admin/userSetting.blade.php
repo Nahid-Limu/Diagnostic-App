@@ -1,7 +1,7 @@
 @extends('layouts.appAdmin')
 @section('title', 'User Setting')
 @section('css')
-    
+
 @endsection
 
 @section('content')
@@ -10,35 +10,37 @@
   <div class="card shadow mb-4">
     <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-      <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-list"> TESTS LIST</i></h6>
+      <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-users"> USER LIST</i></h6>
       <strong id="success_message" class="text-success"></strong>
-      
+
       <div class="dropdown no-arrow">
-        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#AddTestModal"><i class="fas fa-plus fa-fw mr-2 text-gray-400"></i>Add New Test</button>
+        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#AddUserModal"><i
+            class="fas fa-plus fa-fw mr-2 text-gray-400"></i>Add New User</button>
       </div>
     </div>
     <!-- Card Body -->
     <div class="card-body">
-      <table id="TestListTable" class="table table-striped table-bordered">
+      <table id="UserListTable" class="table table-striped table-bordered">
         <thead>
-            <tr>
-                <th class="text-center">#NO</th>
-                <th class="text-center">Test Code</th>
-                <th class="text-center">Test Name</th>
-                <th class="text-center">Price</th>
-                <th class="text-center">Action</th>
-            </tr>
+          <tr>
+            <th class="text-center">#NO</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Role</th>
+            <th class="text-center">Action</th>
+          </tr>
         </thead>
 
-    </table>
+      </table>
     </div>
   </div>
 </div>
-@include('admin.modal.addTest')
-@include('admin.modal.editTest')
+@include('admin.modal.addUser')
+@include('admin.modal.editUser')
 
 <!-- Delete Confirmation Modal-->
-<div class="modal fade" id="DeleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="DeleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -47,11 +49,13 @@
           <span aria-hidden="true">×</span>
         </button>
       </div>
-      <div class="modal-body">Select "Delete" below if you are <strong>Sure</strong> to <strong>Delete</strong> this <strong id="dtn"></strong> Test. </div>
+      <div class="modal-body">Select "Delete" below if you are <strong>Sure</strong> to <strong>Delete</strong> this
+        <strong id="dtn"></strong> Test. </div>
       <div class="modal-footer" style="display: inline">
         <input type="hidden" id="delete_test_id" value="">
         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <button onclick="deleteTest($('#delete_test_id').val())" class="btn btn-danger float-right" type="button">Delete</button>
+        <button onclick="deleteTest($('#delete_test_id').val())" class="btn btn-danger float-right"
+          type="button">Delete</button>
       </div>
     </div>
   </div>
@@ -61,13 +65,13 @@
 @section('script')
 <script>
   //  $('#TestListTable').DataTable();
-   $('#TestListTable').DataTable({
+   $('#UserListTable').DataTable({
       processing: true,
       serverSide: true,
       responsive: true,
       "order": [[ 0, "asc" ]],
       ajax:{
-      url: "{{ route('testSetting') }}",
+      url: "{{ route('userSetting') }}",
       },
       columns:[
         { 
@@ -75,16 +79,16 @@
             name: 'DT_RowIndex' 
         },
         {
-            data: 'test_code',
-            name: 'test_code'
+            data: 'name',
+            name: 'name'
         },
         {
-            data: 'test_name',
-            name: 'test_name'
+            data: 'email',
+            name: 'email'
         },
         {
-            data: 'test_price',
-            name: 'test_price'
+            data: 'is_role',
+            name: 'is_role'
         },
         {
             data: 'action',
@@ -94,78 +98,120 @@
       ]
   });
 
-    function addTest() {
-        if ( $( "#test_code" ).val() != '' ) {
-            $("#test_code").removeClass("errorInputBox");
-            $( "#test_codeError").text('').removeClass("ErrorMsg");;
-            
+    function addUser() {
+
+      if ($( "#name" ).val() && $( "#email" ).val() && $("#role" ).val() && $( "#password" ).val() && $("#confirm_password" ).val() && IsEmail($("#email").val())==true ) {
+        
+        $("#nameError,#emailError,#roledError,#passwordError,#confirm_passwordError").text('');
+        $("#name,#email,#password,#role,#confirm_password" ).removeClass("errorInputBox");
+
+        if ($("#password").val() != $("#confirm_password").val() ) {
+          $("#confirm_password").addClass("errorInputBox");
+          $("#confirm_passwordError").text('Password do not match').addClass("ErrorMsg");
+        }else if($("#password").val() != null && $("#password").val().length < 8){
+          $("#passwordError").html("Password Must be 8 Char").addClass("ErrorMsg");
+          $("#password").addClass("errorInputBox");
+        }else{
+
+          $("#nameError,#emailError,#roledError,#passwordError,#confirm_passwordError").text('');
+          $("#name,#email,#password,#role,#confirm_password" ).removeClass("errorInputBox");
+
+          var myData =  $('#AddUserForm').serialize();
+
+              $.ajax({
+                  type: 'POST',
+                  url: "{{ route('addUser') }}",
+                  data: myData,
+                  success: function (response) {
+                      console.log(response);
+                      if (response.success) {
+                        
+                        $("#success_message").text(response.success);
+                        $('#UserListTable').DataTable().ajax.reload();
+                        $('#AddUserModal').modal('hide');
+                        $("#AddUserForm").trigger("reset");
+                        
+                        SuccessMsg();
+                      }
+
+                  },error:function(){ 
+                      console.log(response);
+                  }
+              });
+
+        }
+              
+
+      } else {
+
+        if ( !$("#name" ).val()) {
+            $("#name").addClass("errorInputBox");
+            $("#nameError").text('Name Is Required').addClass("ErrorMsg");
         } else {
-            $("#test_code").addClass("errorInputBox");
-            $( "#test_codeError").text('Test Name Is Required').addClass("ErrorMsg");
+            $("#name").removeClass("errorInputBox");
+            $("#nameError").text('').removeClass("ErrorMsg");
         }
         
-        if ( $( "#test_name" ).val() != '' ) {
-            $("#test_name").removeClass("errorInputBox");
-            $( "#test_nameError").text('').removeClass("ErrorMsg");;
+        if ( !$("#email" ).val()) {
+            $("#email").addClass("errorInputBox");
+            $("#emailError").text('Email Is Required').addClass("ErrorMsg");
             
         } else {
-            $("#test_name").addClass("errorInputBox");
-            $( "#test_nameError").text('Test Name Is Required').addClass("ErrorMsg");
+          if(IsEmail($("#email").val())==false){
+            $("#email").addClass("errorInputBox");
+            $("#emailError").text("Email Formate is Wrong").addClass("ErrorMsg");
+          }else{
+            $("#email").removeClass("errorInputBox");
+            $("#emailError").text('').removeClass("ErrorMsg");
+          }
         }
 
-        if ( $( "#test_price" ).val() != '' ) {
-            $("#test_price").removeClass("errorInputBox");
-            $( "#test_priceError").text('').removeClass("ErrorMsg");;
+        if ( !$("#role" ).val()) {
+            $("#role").addClass("errorInputBox");
+            $("#roleError").text('Select Role').addClass("ErrorMsg");
+        } else {
+            $("#role").removeClass("errorInputBox");
+            $("#roleError").text('').removeClass("ErrorMsg");
+        }
+        
+        if ( !$("#password" ).val() ) {
+            $("#password").addClass("errorInputBox");
+            $( "#passwordError").text('Password Is Required').addClass("ErrorMsg");
             
         } else {
-            $("#test_price").addClass("errorInputBox");
-            $( "#test_priceError").text('Test Name Is Required').addClass("ErrorMsg");
+            $("#password").removeClass("errorInputBox");
+            $( "#passwordError").text('').removeClass("ErrorMsg");
         }
 
-        if ( $( "#test_code" ).val() && $( "#test_name" ).val() && $( "#test_price" ).val() ) {
-            $( "#test_codeError","#test_nameError","#test_priceError").text('');
-            $( "#test_code","#test_name","#test_price").removeClass("errorInputBox");
-          
-            var myData =  $('#AddTestForm').serialize();
-            // alert(data);
-            $.ajax({
-                type: 'POST', //THIS NEEDS TO BE GET
-                url: "{{ route('addTest') }}",
-                // data: {_token: _token, clintName: clintName,age: age,sex: sex,address: address,ref_dr: ref_dr},
-                // data: {_token: _token, myData: myData},
-                data: myData,
-                // dataType: 'json',
-                success: function (response) {
-                    console.log(response);
-                    if (response.success) {
-                      
-                      $("#success_message").text(response.success);
-                      $('#TestListTable').DataTable().ajax.reload();
-                      $('#AddTestModal').modal('hide');
-                      $("#AddTestForm").trigger("reset");
-                      
-                      SuccessMsg();
-                    }
+        if ( !$("#confirm_password" ).val() ) {
 
-                },error:function(){ 
-                    console.log(response);
-                }
-            });
+            $("#confirm_password").addClass("errorInputBox");
+            $("#confirm_passwordError").text('Confirm Password Is Required').addClass("ErrorMsg");
+            
+        } else {
+          $("#confirm_password").removeClass("errorInputBox");
+          $( "#confirm_passwordError").text('').removeClass("ErrorMsg");
         }
+        
+      }
+        
+        
     }
 
-    function editTest(TestId) {
+    function editUser(id) {
       $.ajax({
           type: 'GET',
-          url: "{{url('editTest')}}"+"/"+TestId,
+          url: "{{url('editUser')}}"+"/"+id,
           success: function (response) {
               console.log(response);
               if (response) {
                 
-                $('#edit_test_id').val(response.id);
-                $('#etest_code').val(response.test_code);
-                $('#etest_name').val(response.test_name);
-                $('#etest_price').val(response.test_price);
+                $('#edit_user_id').val(response.id);
+                $('#ename').val(response.name);
+                $('#eemail').val(response.email);
+                $("#erole option[value=" + response.is_role + "]").prop('selected', true);
+                $('#epassword').val(response.test_price);
+                $('#econfirm_password').val(response.test_price);
               }
 
           },error:function(){ 
@@ -174,7 +220,7 @@
       });
     }
 
-    function updateTest(params) {
+    function updateUser(params) {
       if ( $( "#etest_code" ).val() != '' ) {
             $("#etest_code").removeClass("errorInputBox");
             $("#etest_codeError").text('').removeClass("ErrorMsg");;
@@ -263,6 +309,49 @@
             $("#success_message").alert('close');
         });
     }
+
+    $("#password").keyup(function(){
+            if ( $("#password").val() != null && $("#password").val().length >= 8) {
+                $("#passwordError").html("");
+                $("#password").addClass("successInputBox");
+            }else{
+                $("#passwordError").html("Password Must be 8 Char").css("color","red");
+                $("#password").addClass("errorInputBox");
+          }
+    });
+
+    $("#confirm_password").keyup(function(){
+            if ($("#password").val() != $("#confirm_password").val()) {
+                $("#confirm_passwordError").text("Password do not match").addClass("ErrorMsg");
+                $("#confirm_password").addClass("errorInputBox");
+            }else{
+                $("#confirm_passwordError").text("Password matched").addClass("SuccessMsg");
+                $("#confirm_password").addClass("successInputBox");
+          }
+    });
+
+    function showPassword() {
+      var password = document.getElementById("password");
+      var confirm_password = document.getElementById("confirm_password");
+      if (password.type === "password") {
+        password.type = "text";
+        confirm_password.type = "text";
+      } else {
+        password.type = "password";
+        confirm_password.type = "password";
+      }
+    }
+
+    /* email validation start*/
+    function IsEmail(email) {
+      var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      if(!regex.test(email)) {
+        return false;
+      }else{
+        return true;
+      }
+    }
+    /* email validation end*/
     
 
 </script>

@@ -21,7 +21,7 @@
                         </div>
                         <div class="form-group col-md-9">
                             <input type="number" class="form-control" id="test_code" name="test_code" placeholder="Test Code [EX: 112] ">
-                            <span id="test_nameError"></span>
+                            <span id="test_codeError"></span>
                         </div>
                     </div>
                     <div class="form-row">

@@ -23,9 +23,17 @@
       .ErrorMsg {
                 color: red;
       }
+
+      .SuccessMsg {
+                color: green;
+      }
   
       .errorInputBox {
           border: 1px solid red !important;
+      }
+
+      .successInputBox {
+          border: 1px solid green !important;
       }
     </style>
     @yield('css')
