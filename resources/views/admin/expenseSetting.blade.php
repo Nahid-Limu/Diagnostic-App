@@ -15,7 +15,7 @@
 
       <div class="dropdown no-arrow">
         <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#AddExpenseModal"><i
-            class="fas fa-plus fa-fw mr-2 text-gray-400"></i>Add New Expense</button>
+            class="fas fa-plus fa-fw mr-2 text-gray-400"></i>Add New Expense Catagory</button>
       </div>
     </div>
     <!-- Card Body -->

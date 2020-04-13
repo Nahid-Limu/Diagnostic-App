@@ -49,7 +49,7 @@
             <!-- Modal footer  class="modal-footer"-->
             <div class="modal-footer" style="display: inline">
                 <button onclick="addTest()" type="button" class="btn btn-success float-right">Add</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button onclick="onCloseModal('AddTestForm')" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 {{-- <button onclick="testfun()" type="button" class="btn btn-danger">test</button> --}}
             </div>
 

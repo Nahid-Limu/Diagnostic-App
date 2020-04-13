@@ -94,6 +94,12 @@
     
     
     @yield('script')
+
+    <script>
+      function onCloseModal(fromName) {
+        $('#'+fromName).trigger("reset");
+      }
+    </script>
   
   </body>
 

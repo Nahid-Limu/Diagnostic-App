@@ -52,6 +52,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/editExpense/{id}', 'ExpenseController@editExpense')->name('editExpense');
     Route::post('/updateExpense', 'ExpenseController@updateExpense')->name('updateExpense');
     Route::get('/deleteExpense/{id}', 'ExpenseController@deleteExpense')->name('deleteExpense');
+
+    Route::get('/dailyExpense', 'DailyExpenseController@dailyExpense')->name('dailyExpense');
+    Route::post('/addDailyExpense', 'DailyExpenseController@addDailyExpense')->name('addDailyExpense');
+    Route::get('/editDailyExpense/{id}', 'DailyExpenseController@editDailyExpense')->name('editDailyExpense');
+    Route::post('/updateDailyExpense', 'DailyExpenseController@updateDailyExpense')->name('updateDailyExpense');
+    Route::get('/deleteDailyExpense/{id}', 'DailyExpenseController@deleteDailyExpense')->name('deleteDailyExpense');
 });
 
 

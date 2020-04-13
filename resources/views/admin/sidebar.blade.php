@@ -59,9 +59,9 @@
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Expense Module:</h6>
-          <a class="collapse-item" href="buttons.html">Daily Expense</a>
+          <a class="collapse-item" href="{{route ('dailyExpense')}}">Daily Expense</a>
           <a class="collapse-item" href="cards.html">Expense History</a>
-          <a class="collapse-item" href="cards.html">Expense Settings</a>
+          <a class="collapse-item" href="{{route ('expenseSetting')}}">Expense Settings</a>
         </div>
       </div>
     </li>
