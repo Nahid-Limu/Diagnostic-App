@@ -53,11 +53,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/updateExpense', 'ExpenseController@updateExpense')->name('updateExpense');
     Route::get('/deleteExpense/{id}', 'ExpenseController@deleteExpense')->name('deleteExpense');
 
+    //--daily expense--//
     Route::get('/dailyExpense', 'DailyExpenseController@dailyExpense')->name('dailyExpense');
     Route::post('/addDailyExpense', 'DailyExpenseController@addDailyExpense')->name('addDailyExpense');
     Route::get('/editDailyExpense/{id}', 'DailyExpenseController@editDailyExpense')->name('editDailyExpense');
     Route::post('/updateDailyExpense', 'DailyExpenseController@updateDailyExpense')->name('updateDailyExpense');
     Route::get('/deleteDailyExpense/{id}', 'DailyExpenseController@deleteDailyExpense')->name('deleteDailyExpense');
+
+    //--expense History--//
+    Route::get('/expenseHistory', 'ExpenseHistoryController@expenseHistory')->name('expenseHistory');
+
+    //--report--//
+    Route::get('/report', 'ReportController@report')->name('report');
+    
 });
 
 

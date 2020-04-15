@@ -59,6 +59,7 @@
 @endsection
 
 @section('script')
+<script src="https://cdn.datatables.net/plug-ins/1.10.20/api/sum().js" ></script>
 <script>
   //  $('#TestListTable').DataTable();
    $('#TestListTable').DataTable({

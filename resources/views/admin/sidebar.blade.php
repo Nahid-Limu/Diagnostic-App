@@ -6,7 +6,7 @@
       <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
       </div>
-      <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+      <div class="sidebar-brand-text mx-3">WelCome <sup></sup></div>
     </a>
 
     <!-- Divider -->
@@ -24,7 +24,7 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-      Interface
+      Seetings
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
@@ -60,7 +60,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Expense Module:</h6>
           <a class="collapse-item" href="{{route ('dailyExpense')}}">Daily Expense</a>
-          <a class="collapse-item" href="cards.html">Expense History</a>
+          <a class="collapse-item" href="{{route ('expenseHistory')}}">Expense History</a>
           <a class="collapse-item" href="{{route ('expenseSetting')}}">Expense Settings</a>
         </div>
       </div>
@@ -68,6 +68,15 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{route ('report')}}">
+        <i class="fas fa-file-csv"></i>
+        <span>Report</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

@@ -45,6 +45,7 @@
                     <input type="hidden" value="" id="exist_clint_id" name="exist_clint_id" disabled>
                     <input type="hidden" value="" id="testIds" name="test_ids">
                     <input type="hidden" value="" id="test_price" name="test_price">
+                    <input type="hidden" value="" id="discount_amount" name="discount_amount">
                     {{-- hidden inputs [end] --}}
                     
                     <hr>

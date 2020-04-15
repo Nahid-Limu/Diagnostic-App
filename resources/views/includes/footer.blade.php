@@ -199,7 +199,7 @@
   <!-- Site footer -->
   <footer class="site-footer">
     <div class="container" >
-        <hr>
+      <hr>
       <div class="row">
         <div class="col-md-8 col-sm-6 col-xs-12">
           <p class="copyright-text">Copyright &copy; 2020 All Rights Reserved by 
@@ -209,9 +209,9 @@
 
         
         <div class="row col-md-4 col-sm-6 col-xs-12">
-            <div class="col-md-4"><a class="facebook" href="#"><i class="fa fa-facebook" style="font-size: 25px;"></i></a></div>
-            <div class="col-md-4"><a class="linkedin" href="#"><i class="fa fa-linkedin" style="font-size: 25px;"></i></a></div>
-            <div class="col-md-4"><a class="twitter" href="#"><i class="fa fa-twitter" style="font-size: 25px;"></i></a></div>
+            <div class="col-md-4"><a class="facebook" href="https://web.facebook.com/nahidlimu" target="_blank" data-toggle="tooltip" data-placement="top" title="Get Me In facebook"><i class="fa fa-facebook" style="font-size: 25px;"></i></a></div>
+            <div class="col-md-4"><a class="linkedin" href="#" data-toggle="tooltip" target="_blank" data-placement="top" title="Get Me In linkedin"><i class="fa fa-linkedin" style="font-size: 25px;"></i></a></div>
+            <div class="col-md-4"><a class="twitter" href="#" data-toggle="tooltip" target="_blank" data-placement="top" title="Get Me In twitter"><i class="fa fa-twitter" style="font-size: 25px;"></i></a></div>
         </div>
       </div>
     </div>

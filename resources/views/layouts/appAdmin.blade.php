@@ -11,6 +11,7 @@
     <title> @yield('title')</title>
 
     <!-- Custom fonts for this template-->
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
@@ -18,6 +19,7 @@
     <link href="admin/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="admin/css/datatables.min.css" rel="stylesheet">
     <link href="admin/css/animation.css" rel="stylesheet">
+    <link href="admin/css/jquery-ui.min.css" rel="stylesheet">
     
     <style>
       .ErrorMsg {
@@ -76,6 +78,7 @@
   
     <!-- Bootstrap core JavaScript-->
     <script src="admin/vendor/jquery/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   
     <!-- Core plugin JavaScript-->
@@ -92,6 +95,11 @@
     <script src="admin/js/demo/chart-pie-demo.js"></script>
     <script src="admin/js/datatables.min.js"></script>
     
+    <script>
+      $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();   
+      });
+  </script>
     
     @yield('script')
 

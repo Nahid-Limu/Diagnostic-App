@@ -8,6 +8,7 @@ use App\User;
 use App\Test;
 use App\Clint;
 use App\Invoice;
+use App\Discount;
 use DB;
 
 class ClintController extends Controller
@@ -57,6 +58,13 @@ class ClintController extends Controller
             $Invoice->ref_dr = $request->ref_dr;
             $Invoice->save();
         }
+
+        $Discount = new Discount;
+        $Discount->discount_amount = $request->discount_amount;
+        $Discount->invoice_id = 'INVOICE-'.$invoice_id;
+        $Discount->clint_id = $Clint->id;
+        $Discount->user_id = Auth::user()->id;
+        $Discount->save();
 
         // $Invoice = new Invoice;
         // $Invoice->user_id = Auth::user()->id;
