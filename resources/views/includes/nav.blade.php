@@ -1,9 +1,9 @@
 <div id="nav" class="row navbar">
     <div class="col-md-3">
-        <img src="{{ asset('img').'/'."final-logo.png "}}" alt="opps"  class="img img-responsive img-circle pull-left" style="width: 100px; height: 100px;"/>
+        <img src="{{ asset('img').'/'."DCMS-Logo.png"}}" alt="opps"  class="img img-responsive img-circle pull-left" style="width: 100px; height: 100px;"/>
     </div>
     <div class="col-md-6">
-        <marquee behavior="alternate"><h2 class="" style="font-weight: bold; margin-bottom: 50px; font-family: cursive; font-size: 20px; color: red;" >DG App</h2></marquee>
+        {{-- <marquee behavior="alternate"><p class="" style="font-weight: bold; margin-bottom: 50px; font-family: cursive; font-size: 20px; color: red;" >DG App</p></marquee> --}}
     </div>
     
     <div class="col-md-3" style="margin-left: 78%;">

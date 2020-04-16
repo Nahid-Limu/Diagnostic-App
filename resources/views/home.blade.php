@@ -1,7 +1,111 @@
 @extends('layouts.app')
 @section('title', 'Home')
 @section('css')
+<style>
+    .searchbar{
+    margin-bottom: auto;
+    margin-top: auto;
+    height: 60px;
+    background-color: #353b48;
+    border-radius: 30px;
+    padding: 10px;
+    }
+
+    .search_input{
+    color: white;
+    border: 0;
+    outline: 0;
+    background: none;
+    width: 0;
+    caret-color:transparent;
+    line-height: 40px;
+    transition: width 0.4s linear;
+    color:white; 
+    font-size: 20px;
+    font: bold;
+    }
+
+    .searchbar:hover > .search_input{
+    padding: 0 10px;
+    width: 450px;
+    caret-color:red;
+    transition: width 0.4s linear;
+    }
+
+    .searchbar:hover > .search_icon{
+    background: white;
+    color: #e74c3c;
+    text-decoration: none;
+    }
+
+    .search_icon{
+    height: 40px;
+    width: 40px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color:white;
+    }
+
+    ul {
+    list-style-type: none;
+    margin-left: 80px;
+    width: 530px;
+    position: absolute;
+    text-align: center;
+    background: lightskyblue;
+    font-size: 20px;
+    font-style: bold;
+    border-radius: 25px;
+    }
+    li:hover{
+        background: ;
+        border: 3px solid black;
+        margin-left: 80px;
+        border-radius: 0px 50px 50px 0px;
+        /* animation: shake 0.5s; */
+        animation-iteration-count: infinite;
+        color: black;
+        font-weight: bold;
+    }
+    @keyframes shake {
+        0% { transform: translate(1px, 1px) rotate(0deg); }
+        10% { transform: translate(-1px, -2px) rotate(-1deg); }
+        20% { transform: translate(-3px, 0px) rotate(1deg); }
+        30% { transform: translate(3px, 2px) rotate(0deg); }
+        40% { transform: translate(1px, -1px) rotate(1deg); }
+        50% { transform: translate(-1px, 2px) rotate(-1deg); }
+        60% { transform: translate(-3px, 1px) rotate(0deg); }
+        70% { transform: translate(3px, 1px) rotate(-1deg); }
+        80% { transform: translate(-1px, -1px) rotate(1deg); }
+        90% { transform: translate(1px, 2px) rotate(0deg); }
+        100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+
+    img {
+        border-radius: 50%;
+        border: 3px solid black;
+        background-color: white;
+    }
+
+    #nav{
+        background-image: url("img/DCMS-Banar.png");
+        
+        background-repeat: no-repeat;
+        background-size:cover;
+    }
+
+    .ErrorMsg{
+        color: red;
+    }
+
+    .errorInputBox {
+        border: 1px solid red !important;
+    }
     
+</style>
 @endsection
 @section('content')
 <div class="container">
@@ -50,7 +154,7 @@
                     <td><b> Total</b></td>
                     <td><b>:</b></td>
                     <td ><b id="result" ><b></b></td>
-                    <td class ="testaction"><input type="number" onkeyup="calculateSum()" id="discount" name="discount" value="" disabled="disabled"> </td>
+                    <td class ="testaction"><input type="hidden" class="form-control w-50 p-3 float-right" placeholder="Discount Amount" onkeyup="calculateSum()" id="discount" name="discount" value="" disabled="disabled"> </td>
                 </tr>
             </tbody> 
         </table>
@@ -131,10 +235,12 @@
                     $('#con').prop('disabled', false);
                     $('#dis').prop('disabled', false);
                     $('#discount').prop('disabled', false);
+                    $('#discount').prop('type', 'number');
                 }else{
                     $('#con').prop('disabled', true);
                     $('#dis').prop('disabled', true);
                     $('#discount').prop('disabled', true);
+                    $('#discount').prop('type', 'hidden');
                 }
             });
             //--on click test get test details [end]--//
@@ -158,10 +264,12 @@
                 $('#con').prop('disabled', false);
                 $('#dis').prop('disabled', false);
                 $('#discount').prop('disabled', false);
+                $('#discount').prop('type', 'number');
             }else{
                 $('#con').prop('disabled', true);
                 $('#dis').prop('disabled', true);
                 $('#discount').prop('disabled', true);
+                $('#discount').prop('type', 'hidden');
             }
         }
 
@@ -207,6 +315,7 @@
                 $('#con').prop('disabled', true);
                 $('#dis').prop('disabled', true);
                 $('#discount').prop('disabled', true);
+                $('#discount').hide();
                 // $("#tableData").find("tr:gt(0)").remove();
             });
         });

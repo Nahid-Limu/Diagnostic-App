@@ -1,5 +1,5 @@
 <?php
-
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,8 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+    if ( User::count()>0 ) {
+        return view('auth.login');
+    }
+    return view('firstRegistation');
 });
+Route::get('/test', function () {
+    return view('firstRegistation');
+});
+
 
 Auth::routes();
 

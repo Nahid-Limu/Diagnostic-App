@@ -6,7 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <link rel="icon" type="image/png" href="{!! asset('img/SOFTWARE-ICON.ico') !!}"/>
     {{-- <title>{{ config('app.name', 'Laravel') }}</title> --}}
     <title> @yield('title')</title>
 
@@ -78,7 +78,7 @@
   
     <!-- Bootstrap core JavaScript-->
     <script src="admin/vendor/jquery/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    {{-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> --}}
     <script src="admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   
     <!-- Core plugin JavaScript-->
@@ -91,9 +91,10 @@
     <script src="admin/vendor/chart.js/Chart.min.js"></script>
   
     <!-- Page level custom scripts -->
-    <script src="admin/js/demo/chart-area-demo.js"></script>
-    <script src="admin/js/demo/chart-pie-demo.js"></script>
+    {{-- <script src="admin/js/demo/chart-area-demo.js"></script>
+    <script src="admin/js/demo/chart-pie-demo.js"></script> --}}
     <script src="admin/js/datatables.min.js"></script>
+    <script src="admin/js/canvasjs.js"></script>
     
     <script>
       $(document).ready(function(){

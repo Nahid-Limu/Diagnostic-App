@@ -3,7 +3,9 @@
 @section('css')
     <style>
         .bg{
-            background-image: url('/img/bg.jpg');
+            /* background-image: url('/img/bg.jpg'); */
+            background-image: url("{{ asset('img/bg.jpg' )}}");
+            /* background-image: url("https://content3.jdmagicbox.com/comp/def_content/default-diagnostic-centres/default-diagnostic-centres-9.jpg"); */
             background-size: 100%;
             height: 800px;
             position: fixed;
@@ -21,7 +23,7 @@
 
         .box {
             width: 500px;
-            margin-top: 200px;
+            margin-top: 150px;
         }
         
         .shape1{
@@ -109,42 +111,51 @@
 
 <div class="container-fluid">
     <div class="row bg"></div>
-    <div><h1 style="text-align: center; font-family: cursive; font-size: 50px;  color: red;">Welcome</h1></div>
+    <h1 style="text-align: center; font-family: cursive; font-size: 50px;  color: red;">Welcome</h1>
+    
+    
     <div class="row">
-        <div class="col-md-4">
-
-        </div>
+        <div class="col-md-4"></div>
         <div id="login-column" class="col-md-6">
-                <div class="box">
-                    <div class="shape1"></div>
-                    <div class="shape2"></div>
-                    <div class="shape3"></div>
-                    <div class="shape4"></div>
-                    <div class="shape5"></div>
-                    <div class="shape6"></div>
-                    <div class="shape7"></div>
-                    <div class="float">
-                            
-                        <form class="form" method="POST" action="/login">
-                            @csrf
-                            <div class="form-group">
-                                <label for="username" class="text-white">Username:</label><br>
-                                <input type="text" name="email" id="email" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="password" class="text-white">Password:</label><br>
-                                <input type="password" name="password" id="password" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-danger pull-3">Login</button>
-                            </div>
-                        </form>
+            
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{ $error }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
+                @endforeach
+            @endif
+            <div class="box">
+                <div class="shape1"></div>
+                <div class="shape2"></div>
+                <div class="shape3"></div>
+                <div class="shape4"></div>
+                <div class="shape5"></div>
+                <div class="shape6"></div>
+                <div class="shape7"></div>
+                <div class="float">
+                        
+                    <form class="form" method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="username" class="text-white">Username:</label><br>
+                            <input type="text" name="email" id="email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="text-white">Password:</label><br>
+                            <input type="password" name="password" id="password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-danger pull-3">Login</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        <div class="col-md-4">
-
         </div>
+        <div class="col-md-4"></div>
     </div>
 </div>
                 

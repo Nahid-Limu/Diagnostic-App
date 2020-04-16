@@ -34,12 +34,14 @@
         <span>Setting Test</span></a>
     </li>
 
+    @if(Auth::user()->is_role == 'admin' || Auth::user()->is_role == 'superadmin')
+    
     <li class="nav-item">
       <a class="nav-link" href="{{route ('userSetting')}}">
         <i class="fas fa-users"></i>
         <span>Setting User</span></a>
     </li>
-
+    @endif
     <!-- Divider -->
     <hr class="sidebar-divider">
 
@@ -68,7 +70,8 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
-
+    @if(Auth::user()->is_role == 'admin' || Auth::user()->is_role == 'superadmin')
+        
     <li class="nav-item">
       <a class="nav-link" href="{{route ('report')}}">
         <i class="fas fa-file-csv"></i>
@@ -77,6 +80,8 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+
+    @endif
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

@@ -83,15 +83,9 @@ class HomeController extends Controller
         return view('insert');
     }
 
-    public function insertPost(Request $request)
+    public function test()
     {
-        $test = new Test;
-
-        $test->test_name = $request->name;
-        $test->test_code = "101";
-        $test->test_price = 200;
-        
-        $test->save();
+        return 121;
     }
 
     
