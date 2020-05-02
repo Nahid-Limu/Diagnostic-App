@@ -15,9 +15,10 @@ class CreateTestsTable extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('test_code');
-            $table->string('test_name');
-            $table->integer('test_price');
+            $table->integer('test_code')->nullable();;
+            $table->string('test_name')->nullable();;
+            $table->integer('test_price')->nullable();;
+            $table->integer('minimum_test_price')->nullable();;
             $table->timestamps();
         });
     }

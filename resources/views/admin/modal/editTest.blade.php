@@ -44,6 +44,15 @@
                             <span id="etest_priceError"></span>
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label class="form-control" for="eminimum_test_price">Mini Price</label>
+                        </div>
+                        <div class="form-group col-md-9">
+                            <input type="number" class="form-control" id="eminimum_test_price" name="minimum_test_price" placeholder="Minimum Test Price [EX: 500] ">
+                            <span id="eminimum_test_priceError"></span>
+                        </div>
+                    </div>
                 </form>
             </div>
 

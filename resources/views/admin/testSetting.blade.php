@@ -120,12 +120,21 @@
             
         } else {
             $("#test_price").addClass("errorInputBox");
-            $( "#test_priceError").text('Test Name Is Required').addClass("ErrorMsg");
+            $( "#test_priceError").text('Test Price Is Required').addClass("ErrorMsg");
         }
 
-        if ( $( "#test_code" ).val() && $( "#test_name" ).val() && $( "#test_price" ).val() ) {
-            $( "#test_codeError","#test_nameError","#test_priceError").text('');
-            $( "#test_code","#test_name","#test_price").removeClass("errorInputBox");
+        if ( $( "#minimum_test_price" ).val() != '' ) {
+            $("#minimum_test_price").removeClass("errorInputBox");
+            $( "#minimum_test_priceError").text('').removeClass("ErrorMsg");;
+            
+        } else {
+            $("#minimum_test_price").addClass("errorInputBox");
+            $( "#minimum_test_priceError").text('Minimum Test Price Is Required').addClass("ErrorMsg");
+        }
+
+        if ( $( "#test_code" ).val() && $( "#test_name" ).val() && $( "#test_price" ).val() && $( "#minimum_test_price" ).val() ) {
+            $( "#test_codeError","#test_nameError","#test_priceError","#minimum_test_priceError").text('');
+            $( "#test_code","#test_name","#test_price","#minimum_test_price").removeClass("errorInputBox");
           
             var myData =  $('#AddTestForm').serialize();
             // alert(data);
@@ -167,6 +176,7 @@
                 $('#etest_code').val(response.test_code);
                 $('#etest_name').val(response.test_name);
                 $('#etest_price').val(response.test_price);
+                $('#eminimum_test_price').val(response.minimum_test_price);
               }
 
           },error:function(){ 
@@ -202,6 +212,15 @@
           $("#etest_price").addClass("errorInputBox");
           $("#etest_priceError").text('Test Name Is Required').addClass("ErrorMsg");
       }
+
+      if ( $( "#eminimum_test_price" ).val() != '' ) {
+            $("#eminimum_test_price").removeClass("errorInputBox");
+            $( "#eminimum_test_priceError").text('').removeClass("ErrorMsg");;
+            
+        } else {
+            $("#eminimum_test_price").addClass("errorInputBox");
+            $( "#eminimum_test_priceError").text('Minimum Test Price Is Required').addClass("ErrorMsg");
+        }
 
       if ( $( "#etest_code" ).val() && $( "#etest_name" ).val() && $( "#etest_price" ).val() ) {
           $( "#etest_codeError","#etest_nameError","#etest_priceError").text('');

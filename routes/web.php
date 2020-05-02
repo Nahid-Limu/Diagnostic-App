@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/autoSearch', 'HomeController@autoSearch')->name('autoSearch');
     Route::post('/getTable', 'HomeController@getTable')->name('getTable');
+    Route::post('/checkMinimamPrice', 'HomeController@checkMinimamPrice')->name('checkMinimamPrice');
 
     Route::post('/ClintReg', 'ClintController@ClintReg')->name('ClintReg');
     Route::post('/print', 'ClintController@print')->name('print');

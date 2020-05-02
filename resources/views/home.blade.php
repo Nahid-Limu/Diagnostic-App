@@ -124,6 +124,7 @@
                         </div>
                     </div>
                 </form>
+                <p id="noTest" style="text-align: center" hidden></p>
                 <div  id="testlist" style="margin: auto; position: absolute;">
                 </div>
             </div>
@@ -148,13 +149,27 @@
             <tbody  id="testTable" style="text-align: center; font-style: bold;">         
             </tbody>
 
-            <tbody id="rseTbody" style="background:steelblue; text-align: center; font-style: bold;">
+            <tbody id="rseTbody" hidden style="background:steelblue; text-align: center; font-style: bold;">
+                <tr >
+                    <td>&nbsp</td>
+                    <td><b> Sub Total</b></td>
+                    <td><b>:</b></td>
+                    <td ><b id="result" ><b></b></td>
+                    <td class ="testaction"></td>
+                </tr>
+                <tr >
+                    <td>&nbsp</td>
+                    <td><b> Discount</b></td>
+                    <td><b>:</b></td>
+                    <td ><b id="discountAmount" ><b></b></td>
+                    <td class ="testaction"><input type="hidden" class="form-control w-50 p-3 float-right" placeholder="Discount Amount" onkeyup="calculateSum()" id="discount" name="discount" value="" disabled="disabled"> </td>
+                </tr>
                 <tr >
                     <td>&nbsp</td>
                     <td><b> Total</b></td>
                     <td><b>:</b></td>
-                    <td ><b id="result" ><b></b></td>
-                    <td class ="testaction"><input type="hidden" class="form-control w-50 p-3 float-right" placeholder="Discount Amount" onkeyup="calculateSum()" id="discount" name="discount" value="" disabled="disabled"> </td>
+                    <td ><b id="discountResult" ><b></b></td>
+                    <td class ="testaction"><input type="hidden" class="form-control w-50 p-3 float-right" > </td>
                 </tr>
             </tbody> 
         </table>
@@ -180,15 +195,24 @@
             //--Test autosearch [start]--//
             $("#search").keyup(function (event) {
                 
+                $('#noTest').prop('hidden', true);
+
                 var _token = '{{ csrf_token() }}';
                 var search = $("#search").val();
                 var SearchedTestIds = $("#testIds").val();
                 // alert(SearchedTestIds);
                 if(search != ''){
                     $.post("{{ route('autoSearch') }}", {SearchedTestIds:SearchedTestIds,search:search,_token:_token}, function (ret) {
-                    
-                        $("#testlist").fadeIn();
-                        $("#testlist").html(ret);
+            
+                        if (ret == 0) {
+                            $('#noTest').prop('hidden', false);
+                            $("#noTest").text('No Data Found or Already Used');
+                        }else{
+                            // $('#noTest').prop('hidden', true);
+                            $("#testlist").fadeIn();
+                            $("#testlist").html(ret);
+                        }
+                        
     
                     });
                 }
@@ -236,11 +260,13 @@
                     $('#dis').prop('disabled', false);
                     $('#discount').prop('disabled', false);
                     $('#discount').prop('type', 'number');
+                    $('#rseTbody').prop('hidden', false);
                 }else{
                     $('#con').prop('disabled', true);
                     $('#dis').prop('disabled', true);
                     $('#discount').prop('disabled', true);
                     $('#discount').prop('type', 'hidden');
+                    $('#rseTbody').prop('hidden', true);
                 }
             });
             //--on click test get test details [end]--//
@@ -259,23 +285,27 @@
 
 
             // count table row
+            
             var tr = $('table tr').length;
-            if(tr >= 3){
+            if(tr >= 5){
                 $('#con').prop('disabled', false);
                 $('#dis').prop('disabled', false);
                 $('#discount').prop('disabled', false);
                 $('#discount').prop('type', 'number');
+                $('#rseTbody').prop('hidden', false);
+
             }else{
                 $('#con').prop('disabled', true);
                 $('#dis').prop('disabled', true);
                 $('#discount').prop('disabled', true);
                 $('#discount').prop('type', 'hidden');
+                $('#rseTbody').prop('hidden', true);
             }
         }
 
         // Price Calculation Function start
         function calculateSum() {
-
+            //-- coloum sum [start]
             var sum = 0;
             // iterate through each td based on class and add the values
             $(".price").each(function() {
@@ -286,8 +316,37 @@
                     sum += parseFloat(value);
                 }
             });    
-            $('#result').text( ( sum - $('#discount').val() )+' TK');
+            //-- coloum sum [end]
+
+            //-- check for mimimum price of test [start]
+            var _token = '{{ csrf_token() }}';
+            var testIds = $("#testIds").val();
+            $.ajax({
+                type: 'POST', //THIS NEEDS TO BE GET
+                url: "{{ route('checkMinimamPrice') }}",
+                data: {_token: _token, testIds: testIds},
+                success: function (response) {
+                    console.log(response);
+                    if ( ( sum - $('#discount').val() ) < response ) {
+                        $('#con').prop('disabled', true);
+                    }else{
+                        $('#con').prop('disabled', false);
+                    }
+
+                },error:function(){ 
+                    console.log(response);
+                }
+            });
+            //-- check for mimimum price of test [end]
+
+            $('#result').text( ( sum )+' TK');
+            $('#discountAmount').text( ( $('#discount').val() )+' TK');
+            $('#discountResult').text( ( sum - $('#discount').val() )+' TK');
             $('#test_price').val(sum);
+
+            if ($('#discount').val() > sum ) {
+                $('#con').prop('disabled', true);
+            }
 
         }
         // Price Calculation Function end
@@ -308,15 +367,18 @@
             ///dicurt button action
             $('#dis').click(function(){ 
 
-                $('#result').text('');
-                $('#test_price').val('');
-                $("#testTable").empty();
-                $('#discount').val('');
-                $('#con').prop('disabled', true);
-                $('#dis').prop('disabled', true);
-                $('#discount').prop('disabled', true);
-                $('#discount').hide();
+                // $('#result').text('');
+                // $('#test_price').val('');
+                // $("#testTable").empty();
+                // $('#discount').val('');
+                // $('#con').prop('disabled', true);
+                // $('#dis').prop('disabled', true);
+                // $('#discount').prop('disabled', true);
+                // $('#discount').hide();
+
                 // $("#tableData").find("tr:gt(0)").remove();
+                location.reload();
+
             });
         });
     </script>

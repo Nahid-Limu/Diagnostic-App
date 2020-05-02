@@ -35,6 +35,7 @@ class TestController extends Controller
         $Test->test_code = $request->test_code;
         $Test->test_name = $request->test_name;
         $Test->test_price = $request->test_price;
+        $Test->minimum_test_price = $request->minimum_test_price;
         $Test->save();
 
         if ($Test->id) {

@@ -47,7 +47,8 @@ class HomeController extends Controller
             if (count($tests)>0) {
                 return $output;
             } else {
-                return  $output = '<ul><li style=" color:red;">No Data Found or Already Used</li></ul>';
+                return  $output = 0;
+                // return  $output = '<ul><li style=" color:red;">No Data Found or Already Used</li></ul>';
             }
             
             // return $output;
@@ -76,6 +77,13 @@ class HomeController extends Controller
             'output' => $output,
             'tid' => $tid
         ]);
+    }
+
+    public function checkMinimamPrice(Request $request)
+    {
+        $ids = explode(",", $request->testIds);
+        $minimum_test_price = Test::whereIn('id', $ids)->sum('minimum_test_price');
+        return $minimum_test_price;
     }
 
     public function insert()
